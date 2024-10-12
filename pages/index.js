@@ -1,7 +1,11 @@
+import Header1 from "@/components/Header1";
+import Header2 from "@/components/Header2";
+
 export default function Home() {
   return (
-    <div className="bg-black h-[100vh]">
-      <h1 className="text-center text-2xl text-white">Hello World!</h1>
+    <div>
+      <Header1 />
+      <Header2 />
     </div>
   );
 }
