@@ -13,7 +13,6 @@ export default function Home() {
         <title>
           OYO: India&apos;s Best Hotel Booking Site for Sanitized Stays
         </title>
-        <link rel="icon" href="/icon.png" />
       </Head>
       <Header1 />
       <Header2 />
