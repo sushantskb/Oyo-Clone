@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 const Header3 = () => {
@@ -27,7 +28,7 @@ const Header3 = () => {
           <button
             type="submit"
             className="h-16 px-3 py-2 col-span-1 bg-green-400 hover:cursor-pointer hover:bg-green-600 text-white text-xl">
-            Search
+            <Link href={"/hotels"}>Search</Link>
           </button>
         </div>
         <div className="flex mx-20 my-5">
