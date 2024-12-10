@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         email,
         password: hashedPassword,
       });
-      const token = await signToken(user._id, "1hr");
+      const token = signToken(user._id, "1hr");
       return res.status(201).json({
         success: true,
         message: "User registerd",

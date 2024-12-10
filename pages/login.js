@@ -1,7 +1,42 @@
+"use client";
+import axios from "axios";
 import Head from "next/head";
-import React from "react";
-
+import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 const Login = () => {
+  const router = useRouter();
+  const [isLogin, setIsLogin] = useState(false);
+  const [formData, setFormData] = useState({
+    ...(isLogin ? {} : { name: "" }),
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const { data } = await axios.post(`/api/users/login`, formData);
+      Cookies.set("user-token", data.token);
+      alert(data.message);
+      return router.push("/")
+    }
+    const { data } = await axios.post(`/api/users/register`, formData);
+    Cookies.set("user-token", data.token);
+    alert(data.message);
+    return router.push("/")
+  };
+
+  const handleToggle = () => {
+    setIsLogin(!isLogin);
+  };
   return (
     <div>
       <Head>
@@ -34,28 +69,43 @@ const Login = () => {
               <p className="font-bold text-lg mb-1">
                 Please enter your phone number
               </p>
-              <input
-                type="text"
-                placeholder="Enter your name.."
-                className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
-              />
-              <input
-                type="email"
-                placeholder="Enter your email.."
-                className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
-              />
-              <input
-                type="password"
-                placeholder="Enter your password.."
-                className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
-              />
-              <button className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg">
-                Sign Up
-              </button>
+              <form onSubmit={handleSubmit}>
+                {!isLogin && (
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name.."
+                    className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                )}
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email.."
+                  className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password.."
+                  className="outline-none border my-3 border-black px-3 py-1 w-96 h-10"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <button className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg">
+                  {isLogin ? "Login" : "Sign Up"}
+                </button>
+              </form>
               <p className="my-1 text-xl">
                 <span>Already have an account ?</span>
-                <span className="ml-1 border-b-2 border-red-500 text-red-600 pb-1 hover:cursor-pointer">
-                  Login
+                <span
+                  className="ml-1 border-b-2 border-red-500 text-red-600 pb-1 hover:cursor-pointer"
+                  onClick={handleToggle}>
+                  {isLogin ? "Sign Up" : "Login"}
                 </span>
               </p>
             </div>
