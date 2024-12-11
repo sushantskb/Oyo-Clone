@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Block from "./Block";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -7,9 +8,16 @@ import { useRouter } from "next/router";
 
 const Header1 = () => {
   const router = useRouter();
-  const user = Cookies.get("user-token");
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const token = Cookies.get("user-token");
+    setUser(token);
+  }, []);
+  console.log("User", user);
+
   const handleLogout = () => {
     Cookies.remove("user-token");
+    setUser(null);
     router.push("/");
   };
   return (
