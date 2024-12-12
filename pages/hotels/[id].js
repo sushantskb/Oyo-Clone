@@ -46,10 +46,9 @@ const SingleHotel = ({ hotel }) => {
 export async function getServerSideProps(context) {
   // console.log(context.query.id);
   const res = await fetch(
-    `http://localhost:3000/api/hotels/${context.query.id}`
+    `${process.env.API}/api/hotels/${context.query.id}`
   );
   const data = await res.json();
-  console.log(data);
 
   return {
     props: {

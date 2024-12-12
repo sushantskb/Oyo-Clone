@@ -20,10 +20,9 @@ export async function getServerSideProps(context) {
   const { location } = context.query;
   try {
     const res = await fetch(
-      `http://localhost:3000/api/hotels?location=${location || ""}`
+      `${process.env.API}/api/hotels?location=${location || ""}`
     );
     const data = await res.json();
-    console.log(data);
 
     return {
       props: {
