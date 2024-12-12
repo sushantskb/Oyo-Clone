@@ -11,27 +11,17 @@ const Header3 = () => {
         <h2 className="text-4xl text-white text-center font-bold">
           Over 157,000 hotels and homes across 35 contries
         </h2>
-        <div className="grid grid-cols-5 my-5 mx-20">
+        <div className="flex justify-center items-center my-5 mx-20">
           <input
             type="text"
             value={location}
             placeholder="Search..."
-            className="h-16 outline-none px-3 text-lg border-r-2 border-gray-400 col-span-2"
+            className="w-full h-16 outline-none px-3 text-lg border-r-2 border-gray-400"
             onChange={(e) => setLocation(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="h-16 outline-none px-3 text-lg border-r-2 border-gray-400 col-span-1"
-          />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="h-16 outline-none px-3 text-lg border-r-2 border-gray-400 col-span-1"
           />
           <button
             type="submit"
-            className="h-16 px-3 py-2 col-span-1 bg-green-400 hover:cursor-pointer hover:bg-green-600 text-white text-xl">
+            className="h-16 w-60 px-3 py-2 bg-green-400 hover:cursor-pointer hover:bg-green-600 text-white text-xl">
             <Link href={`/hotels?location=${location}`}>Search</Link>
           </button>
         </div>
