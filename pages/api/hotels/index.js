@@ -1,7 +1,7 @@
 import connDB from "@/lib/db";
 import Hotel from "@/lib/models/hotel.model";
 
-export default async function hotelHandler(req, res) {
+export default async function hotelsHandler(req, res) {
   try {
     await connDB(); // Ensure the DB connection is awaited
 

@@ -54,7 +54,7 @@ const Hotel = ({ hotel }) => {
               Price: 4500
             </button>
             <Link
-              href={"/hotels/2"}
+              href={`/hotels/${hotel._id}`}
               className="text-xl font-bold text-red-600 ml-10">
               See Details
             </Link>
