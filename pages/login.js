@@ -24,12 +24,12 @@ const Login = () => {
     e.preventDefault();
     if (isLogin) {
       const { data } = await axios.post(`/api/users/login`, formData);
-      Cookies.set("user-token", data.token);
+      Cookies.set("user-token", data.token, {expires: 7});
       alert(data.message);
       return router.push("/")
     }
     const { data } = await axios.post(`/api/users/register`, formData);
-    Cookies.set("user-token", data.token);
+    Cookies.set("user-token", data.token, {expires: 7});
     alert(data.message);
     return router.push("/")
   };
