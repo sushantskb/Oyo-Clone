@@ -11,9 +11,10 @@ const Header1 = () => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const token = Cookies.get("user-token");
-    setUser(token);
+    if (token !== undefined) {
+      setUser(token);
+    }
   }, []);
-  console.log("User", user);
 
   const handleLogout = () => {
     Cookies.remove("user-token");

@@ -1,7 +1,17 @@
+import Cookies from "js-cookie";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 const SingleHotel = ({ hotel }) => {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const token = Cookies.get("user-token");
+    if (token !== undefined) {
+      setUser(token);
+    }
+  }, []);
   return (
     <div className="w-7/12 mx-auto">
       <Image
@@ -29,15 +39,21 @@ const SingleHotel = ({ hotel }) => {
                   className="h-8 w-8"
                 />
               </span>
-              <span>
-                {fac.name}
-              </span>
+              <span>{fac.name}</span>
             </li>
           ))}
         </ul>
-        <button className="w-60 h-14 rounded-lg bg-red-400 my-5 text-lg">
-          Book Now
-        </button>
+        {user ? (
+          <button className="w-60 h-14 rounded-lg bg-red-400 my-5 text-lg">
+            Book Now
+          </button>
+        ) : (
+          <button
+            className="w-60 h-14 rounded-lg bg-blue-400 my-5 text-lg"
+            onClick={() => router.push("/login")}>
+            Login
+          </button>
+        )}
       </div>
     </div>
   );
@@ -45,9 +61,7 @@ const SingleHotel = ({ hotel }) => {
 
 export async function getServerSideProps(context) {
   // console.log(context.query.id);
-  const res = await fetch(
-    `${process.env.API}/api/hotels/${context.query.id}`
-  );
+  const res = await fetch(`${process.env.API}/api/hotels/${context.query.id}`);
   const data = await res.json();
 
   return {
