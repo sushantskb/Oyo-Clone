@@ -51,7 +51,7 @@ const Hotel = ({ hotel }) => {
           </div>
           <div className="flex items-center">
             <button className="w-60 h-14 rounded-lg bg-blue-400 text-lg">
-              Price: 4500
+              Price: &#8377;{hotel?.price}
             </button>
             <Link
               href={`/hotels/${hotel._id}`}
