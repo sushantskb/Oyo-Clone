@@ -44,7 +44,9 @@ const SingleHotel = ({ hotel }) => {
           ))}
         </ul>
         {user ? (
-          <button className="w-60 h-14 rounded-lg bg-red-400 my-5 text-lg">
+          <button
+            className="w-60 h-14 rounded-lg bg-red-400 my-5 text-lg"
+            onClick={() => router.push(`/payment/${hotel._id}`)}>
             Book Now
           </button>
         ) : (
