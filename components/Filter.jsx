@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Filter = () => {
+const Filter = ({ price, setPrice, checked, setChecked, handlePrice }) => {
   const [list, setList] = useState([]);
 
   const fetchFacilities = async () => {
@@ -15,6 +15,34 @@ const Filter = () => {
     }
   };
 
+  // const handleCheckList = (e) => {
+  //   let newList = [];
+  //   if (e.target.checked) {
+  //     newList.push(e.target.value);
+  //     setChecked(newList);
+  //     return;
+  //   } else {
+  //     newList = newList.filter((i) => i !== e.target.value);
+  //     setChecked(newList);
+  //     return;
+  //   }
+  // };
+
+  const handleCheckList = (e) => {
+    const { value, checked: isChecked } = e.target; 
+    let updatedList = [...checked];
+
+    if (isChecked) {
+      updatedList.push(value);
+    } else {
+      updatedList = updatedList.filter((item) => item !== value);
+    }
+
+    setChecked(updatedList);
+  };
+
+  console.log(checked);
+
   useEffect(() => {
     fetchFacilities();
   }, []);
@@ -24,20 +52,39 @@ const Filter = () => {
       <label htmlFor="price" className="text-xl mr-3 font-bold">
         Price:{" "}
       </label>
-      <input type="range" name="price" id="price" min={500} max={3000} />
-      <span className="ml-10">&#8377; 50</span>
+      <input
+        type="range"
+        name="price"
+        value={price}
+        id="price"
+        min={1000}
+        max={100000}
+        defaultValue={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
+      <span className="ml-10">&#8377; {price}</span>
+
+      <div className="my-10">
+        <button
+          className="w-full h-12 bg-green-300 cursor-default my-3 rounded-full"
+          onClick={handlePrice}>
+          Search
+        </button>
+      </div>
 
       <div className="my-10">
         <h3 className="text-xl font-bold my-3">Filter by facilities:</h3>
         {list?.map((fac) => (
-          <p key={fac.name} className="grid grid-cols-4 my-3">
+          <p key={fac} className="grid grid-cols-4 my-3">
             <label htmlFor="checkbox" className="col-span-2">
               {fac.name}
             </label>
             <input
               type="checkbox"
               name="checkbox"
+              value={fac.name}
               className="w-5 h-5 ml-3 col-span-1"
+              onChange={handleCheckList}
             />
           </p>
         ))}

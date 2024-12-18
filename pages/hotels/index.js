@@ -1,23 +1,54 @@
 import Filter from "@/components/Filter";
 import Header1 from "@/components/Header1";
 import Hotel from "@/components/Hotel";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 const Hotels = ({ hotels }) => {
+  const [list, setList] = useState([]);
+  const [checked, setChecked] = useState([]);
+  const [price, setPrice] = useState(3500);
+  const handleCheckList = async () => {
+    const { data } = await axios.get(`/api/facilities/search?value=${checked}`);
+    if (data?.hotels) {
+      setList(data?.hotels);
+    }
+  };
+
+  useEffect(() => {
+    if (checked.length > 0) {
+      handleCheckList();
+    }
+  }, [checked]);
+  const handlePrice = async () => {
+    const { data } = await axios.get(`/api/facilities/range?price=${price}`);
+    setList(data.hotels);
+  };
+
   return (
     <>
       <Header1 />
       <div className="grid grid-cols-12">
         <div className="col-span-3">
-          <Filter />
+          <Filter
+            price={price}
+            setPrice={setPrice}
+            checked={checked}
+            setChecked={setChecked}
+            handlePrice={handlePrice}
+          />
         </div>
         <div className="col-span-9">
-          {hotels
-            ? hotels.map((e) => (
+          {list.length > 0
+            ? list.map((e) => (
                 <div className="m-5 col-span-9" key={e._id}>
                   <Hotel hotel={e} />
                 </div>
               ))
-            : ""}
+            : hotels.map((e) => (
+                <div className="m-5 col-span-9" key={e._id}>
+                  <Hotel hotel={e} />
+                </div>
+              ))}
         </div>
       </div>
     </>
