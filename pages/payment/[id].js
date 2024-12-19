@@ -17,6 +17,7 @@ const Payment = () => {
       description: "Thank You",
       handler: function (response) {
         console.log("Payment successful:", response);
+        params.push(`/success?id=${response.razorpay_payment_id}`);
       },
       prefill: {
         name: "Sushant",
