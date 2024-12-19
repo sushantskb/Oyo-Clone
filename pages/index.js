@@ -3,6 +3,7 @@ import Header1 from "@/components/Header1";
 import Header2 from "@/components/Header2";
 import Header3 from "@/components/Header3";
 import Header4 from "@/components/Header4";
+import Header5 from "@/components/Header5";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -33,11 +34,12 @@ export default function Home() {
             alt="banner2"
             width={200}
             height={200}
-            className="h-40 w-full"
+            className="h-50 w-full"
           />
         </div>
         <Header4 />
       </div>
+      <Header5 />
       <Footer />
     </div>
   );

@@ -12,7 +12,7 @@ const Block = ({ title, para }) => {
         className="w-10 h-10 rounded-full mr-5"
       />
       <div>
-        <h3 className="font-bold">{title}</h3>
+        <h3 className="font-bold line-clamp-1">{title}</h3>
         <p className="text-gray-400 text-xs line-clamp-1">{para}</p>
       </div>
     </div>
