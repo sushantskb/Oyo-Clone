@@ -4,7 +4,7 @@ import React from "react";
 
 const Hotel = ({ hotel }) => {
   return (
-    <div className="border-2 border-red-500 rounded-lg h-80 w-full mb-5 p-5">
+    <div className="border-2 rounded-lg h-80 w-full mb-5 p-5">
       <div className="flex">
         <Image
           src={hotel?.banner}

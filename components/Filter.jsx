@@ -48,7 +48,7 @@ const Filter = ({ price, setPrice, checked, setChecked, handlePrice }) => {
   }, []);
 
   return (
-    <div className="border-2 border-red-500 rounded-md m-5 h-auto py-10 px-3">
+    <div className="border-2 rounded-md m-5 h-auto py-10 px-3">
       <label htmlFor="price" className="text-xl mr-3 font-bold">
         Price:{" "}
       </label>

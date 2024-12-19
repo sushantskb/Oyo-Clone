@@ -25,10 +25,10 @@ const Hotels = ({ hotels }) => {
   };
 
   return (
-    <>
+    <div>
       <Header1 />
-      <div className="grid grid-cols-12">
-        <div className="col-span-3">
+      <div className="grid grid-cols-12 h-screen">
+        <div className="col-span-3 overflow-y-auto max-h-screen border-r scrollbar-hide">
           <Filter
             price={price}
             setPrice={setPrice}
@@ -37,7 +37,7 @@ const Hotels = ({ hotels }) => {
             handlePrice={handlePrice}
           />
         </div>
-        <div className="col-span-9">
+        <div className="col-span-9 overflow-y-auto max-h-screen scrollbar-hide">
           {list.length > 0
             ? list.map((e) => (
                 <div className="m-5 col-span-9" key={e._id}>
@@ -51,7 +51,7 @@ const Hotels = ({ hotels }) => {
               ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -21,7 +21,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.4.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "tailwind-scrollbar-hide": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8",
