@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const HotelPage = ({
   title,
@@ -12,6 +13,13 @@ const HotelPage = ({
   price,
   oldPrice,
 }) => {
+  const [user, setUser] = useState(false);
+  const token = Cookies.get("user-token");
+  useEffect(() => {
+    if (token || token !== undefined) {
+      setUser(true);
+    }
+  }, [token]);
   const [coupon, setCoupon] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState(price);
   const [message, setMessage] = useState("");
@@ -80,19 +88,21 @@ const HotelPage = ({
         {/* Booking Section */}
         <div className="lg:w-1/3 border p-6 rounded-lg bg-gray-50 shadow-lg">
           {/* Card Header */}
-          <div className="bg-red-500 text-white px-4 py-2 rounded-t-lg -mt-6 -mx-6">
-            <div className="flex gap-4 justify-center items-center text-lg font-semibold">
-              <CiDiscount1 size={32} />
-              <span className="text-sm">
-                Login now to get up to 15% lower prices
-              </span>
-              <button
-                className="px-2 text-base mr-2 rounded-md"
-                style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
-                Login
-              </button>
+          {!user && (
+            <div className="bg-red-500 text-white px-4 py-2 rounded-t-lg -mt-6 -mx-6">
+              <div className="flex gap-4 justify-center items-center text-lg font-semibold">
+                <CiDiscount1 size={32} />
+                <span className="text-sm">
+                  Login now to get up to 15% lower prices
+                </span>
+                <button
+                  className="px-2 text-base mr-2 rounded-md"
+                  style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
+                  Login
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex justify-between items-center mt-4">
             <div>
@@ -123,13 +133,13 @@ const HotelPage = ({
             <div className="flex">
               <input
                 type="text"
-                className="flex-1 p-2 border rounded-l-md focus:ring-2 focus:ring-blue-500"
+                className="flex-1 p-2 border rounded-l-md focus:ring-2 focus:ring-red-500 focus:outline-none"
                 placeholder="Enter coupon code"
                 value={coupon}
                 onChange={(e) => setCoupon(e.target.value)}
               />
               <button
-                className="bg-blue-500 text-white px-4 rounded-r-md font-semibold"
+                className="bg-red-500 text-white px-4 rounded-r-md font-semibold"
                 onClick={handleApplyCoupon}>
                 Apply
               </button>
@@ -145,7 +155,13 @@ const HotelPage = ({
             <p className="text-base font-bold">
               Total Price: ₹{discountedPrice}
             </p>
-            <button className="bg-green-500 text-white px-6 py-2 rounded-md font-semibold">
+            <button
+              className="bg-green-500 text-white px-6 py-2 rounded-md font-semibold"
+              onClick={() => {
+                if (!user) {
+                  alert("Please login first!!");
+                }
+              }}>
               Continue to Book
             </button>
           </div>
