@@ -1,9 +1,8 @@
-import React from "react";
-import { FaStar, FaWifi, FaTv } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
-import { BsSnow, BsBuilding } from "react-icons/bs";
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
 import Image from "next/image";
+
 const HotelPage = ({
   title,
   ratings,
@@ -12,8 +11,22 @@ const HotelPage = ({
   facilities,
   price,
   oldPrice,
-  types,
 }) => {
+  const [coupon, setCoupon] = useState("");
+  const [discountedPrice, setDiscountedPrice] = useState(price);
+  const [message, setMessage] = useState("");
+  const [date, setDate] = useState("");
+
+  const handleApplyCoupon = () => {
+    if (coupon === "SAVE15") {
+      const newPrice = price - price * 0.15;
+      setDiscountedPrice(newPrice.toFixed(2));
+      setMessage("Coupon applied successfully!");
+    } else {
+      setMessage("Invalid coupon code!");
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto my-8 px-4">
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
@@ -65,14 +78,13 @@ const HotelPage = ({
         </div>
 
         {/* Booking Section */}
-
         <div className="lg:w-1/3 border p-6 rounded-lg bg-gray-50 shadow-lg">
           {/* Card Header */}
           <div className="bg-red-500 text-white px-4 py-2 rounded-t-lg -mt-6 -mx-6">
             <div className="flex gap-4 justify-center items-center text-lg font-semibold">
-              <CiDiscount1 size={32} />{" "}
+              <CiDiscount1 size={32} />
               <span className="text-sm">
-                Login now to get upto 15% lower prices
+                Login now to get up to 15% lower prices
               </span>
               <button
                 className="px-2 text-base mr-2 rounded-md"
@@ -84,12 +96,13 @@ const HotelPage = ({
 
           <div className="flex justify-between items-center mt-4">
             <div>
-              <p className="text-2xl font-bold">₹2962</p>
-              <p className="text-gray-600 text-sm line-through">₹12612</p>
-              
+              <p className="text-2xl font-bold">₹{price}</p>
+              <p className="text-gray-600 text-sm line-through">₹{oldPrice}</p>
             </div>
             <p className="text-lg text-orange-500">76% off</p>
           </div>
+
+          {/* Date Section */}
           <div className="my-4">
             <label className="text-sm font-medium text-gray-600 block mb-1">
               Date
@@ -97,19 +110,41 @@ const HotelPage = ({
             <input
               type="date"
               className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
           </div>
+
+          {/* Coupon Section */}
           <div className="my-4">
             <label className="text-sm font-medium text-gray-600 block mb-1">
-              Room Type
+              Apply Coupon
             </label>
-            <select className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500">
-              <option>Classic</option>
-              <option>Deluxe</option>
-            </select>
+            <div className="flex">
+              <input
+                type="text"
+                className="flex-1 p-2 border rounded-l-md focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter coupon code"
+                value={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+              />
+              <button
+                className="bg-blue-500 text-white px-4 rounded-r-md font-semibold"
+                onClick={handleApplyCoupon}>
+                Apply
+              </button>
+            </div>
+            {message === "Coupon applied successfully!" ? (
+              <p className="text-sm text-green-500 ml-2">{message}</p>
+            ) : (
+              <p className="text-sm text-red-500 ml-2">{message}</p>
+            )}
           </div>
+
           <div className="flex justify-between items-center mt-4">
-            <p className="text-lg font-bold">Total Price: ₹3532</p>
+            <p className="text-base font-bold">
+              Total Price: ₹{discountedPrice}
+            </p>
             <button className="bg-green-500 text-white px-6 py-2 rounded-md font-semibold">
               Continue to Book
             </button>
