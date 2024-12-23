@@ -4,58 +4,77 @@ import React from "react";
 
 const Hotel = ({ hotel }) => {
   return (
-    <div className="border-2 rounded-lg h-80 w-full mb-5 p-5">
-      <div className="flex">
-        <Image
-          src={hotel?.banner}
-          alt="hotel"
-          width={200}
-          height={200}
-          className="w-96 h-60 mr-3"
-        />
-        <div className="flex flex-col justify-between">
-          {hotel?.gallery?.map((ele) => (
-            <Image
+    <div className="border rounded-lg bg-white shadow-md p-6 mb-6">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Hotel Banner */}
+        <div className="flex-shrink-0">
+          <img
+            src={hotel?.banner}
+            alt="hotel"
+            width={200}
+            height={200}
+            className="w-full md:w-96 h-[21rem] object-cover rounded-lg"
+          />
+        </div>
+
+        {/* Gallery */}
+        <div className="flex flex-col gap-2">
+          {hotel?.gallery?.slice(0, 4).map((ele, index) => (
+            <img
+              key={index}
               src={ele}
-              alt="hotel"
+              alt="gallery"
               width={200}
               height={200}
-              className="w-24 h-16 object-cover"
+              className="w-56 h-20 object-cover rounded-lg"
             />
           ))}
         </div>
-        <div className="ml-20">
-          <h2 className="font-bold text-2xl line-clamp-1">{hotel.name}</h2>
-          <p className="text-justify my-5 text-lg">{hotel.description}</p>
-          <div className="text-2xl my-5">
-            <span className="font-bold">Facilities:</span>
-            <ul className="flex text-sm">
-              {hotel ? (
-                hotel.facilities?.map((ele) => (
-                  <li key={ele.name} className="mr-10 mb-3 flex items-center">
-                    <span>
-                      <Image
-                        src={ele.img}
-                        width={200}
-                        height={200}
-                        className="w-8 h-8 rounded-full"
-                      />
+
+        {/* Hotel Details */}
+        <div className="flex-grow">
+          <h2 className="font-bold text-2xl text-gray-800 line-clamp-1 mb-2">
+            {hotel.name}
+          </h2>
+          <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+            {hotel.description}
+          </p>
+
+          {/* Facilities */}
+          <div className="mb-6">
+            <span className="font-semibold text-lg text-gray-800">
+              Facilities:
+            </span>
+            <ul className="flex flex-wrap gap-4 mt-2">
+              {hotel?.facilities?.length > 0 ? (
+                hotel.facilities.map((ele) => (
+                  <li key={ele.name} className="flex items-center">
+                    <Image
+                      src={ele.img}
+                      width={32}
+                      height={32}
+                      alt="facility"
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">
+                      {ele.name}
                     </span>
-                    <span className="ml-2">{ele.name}</span>
                   </li>
                 ))
               ) : (
-                <li>No facilities avaliable</li>
+                <li className="text-gray-500 text-sm">No facilities available</li>
               )}
             </ul>
           </div>
-          <div className="flex items-center">
-            <button className="w-60 h-14 rounded-lg bg-blue-400 text-lg">
-              Price: &#8377;{hotel?.price}
+
+          {/* Price and Link */}
+          <div className="flex items-center gap-6">
+            <button className="px-6 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg hover:bg-blue-600 transition duration-200">
+              Price: ₹{hotel?.price}
             </button>
             <Link
               href={`/hotels/${hotel._id}`}
-              className="text-xl font-bold text-red-600 ml-10">
+              className="text-lg font-bold text-red-500 hover:underline">
               See Details
             </Link>
           </div>
