@@ -6,9 +6,16 @@ const Filter = ({ price, setPrice, checked, setChecked, handlePrice }) => {
 
   const fetchFacilities = async () => {
     try {
+      const filteredFacilities = [];
       const { data } = await axios.get(`/api/facilities`);
       if (data?.facilites) {
-        setList(data.facilites);
+        data.facilites.forEach((fac) => {
+          if (!filteredFacilities.some((item) => item.name === fac.name)) {
+            filteredFacilities.push(fac);
+          }
+        });
+        
+        setList(filteredFacilities);
       }
     } catch (error) {
       console.log(error);
@@ -29,7 +36,7 @@ const Filter = ({ price, setPrice, checked, setChecked, handlePrice }) => {
   // };
 
   const handleCheckList = (e) => {
-    const { value, checked: isChecked } = e.target; 
+    const { value, checked: isChecked } = e.target;
     let updatedList = [...checked];
 
     if (isChecked) {
@@ -41,7 +48,6 @@ const Filter = ({ price, setPrice, checked, setChecked, handlePrice }) => {
     setChecked(updatedList);
   };
 
-  console.log(checked);
 
   useEffect(() => {
     fetchFacilities();
