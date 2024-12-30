@@ -1,6 +1,7 @@
 import Header1 from "@/components/Header1";
 import HotelPage from "@/components/HotelPage";
 import HotelRatingsAndPolicy from "@/components/HotelRatingsAndPolicy";
+import SearchHeader from "@/components/SearchHeader";
 import Slider from "@/components/Slider";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -17,7 +18,7 @@ const SingleHotel = ({ hotel }) => {
   }, []);
   return (
     <div className=" mx-auto ">
-      <Header1 />
+      <SearchHeader />
       <Slider banner={hotel.banner} gallery={hotel.gallery} />
       <HotelPage
         title={hotel.name}

@@ -1,9 +1,14 @@
 import Filter from "@/components/Filter";
 import Header1 from "@/components/Header1";
 import Hotel from "@/components/Hotel";
+import SearchHeader from "@/components/SearchHeader";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 const Hotels = ({ hotels }) => {
+  const router = useRouter();
+  const { location: placeholder } = router.query;
+
   const [list, setList] = useState([]);
   const [checked, setChecked] = useState([]);
   const [price, setPrice] = useState(3500);
@@ -26,7 +31,7 @@ const Hotels = ({ hotels }) => {
 
   return (
     <div>
-      <Header1 />
+      <SearchHeader placeholder={placeholder} />
       <div className="grid grid-cols-12 h-screen">
         <div className="col-span-3 overflow-y-auto max-h-screen border-r scrollbar-hide">
           <Filter

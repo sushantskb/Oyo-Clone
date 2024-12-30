@@ -18,7 +18,7 @@ const Slider = ({ banner, gallery }) => {
     );
   };
   return (
-    <div className="relative w-full h-[500px] overflow-hidden">
+    <div className="relative w-full h-[500px] overflow-hidden -my-4">
       {/* Main Image */}
       <Image
         src={images[currentIndex]}

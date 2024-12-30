@@ -20,7 +20,8 @@ export default async function hotelsHandler(req, res) {
       let hotels = [];
 
       if (location) {
-        hotels = await Hotel.find({ location });
+        const regex = new RegExp(location, "i");
+        hotels = await Hotel.find({ location: regex });
       }
 
       if (!hotels.length) {
@@ -45,4 +46,3 @@ export default async function hotelsHandler(req, res) {
     });
   }
 }
-
