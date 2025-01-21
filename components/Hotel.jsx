@@ -18,16 +18,17 @@ const Hotel = ({ hotel }) => {
         </div>
 
         {/* Gallery */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-28">
           {hotel?.gallery?.slice(0, 4).map((ele, index) => (
-            <img
-              key={index}
-              src={ele}
-              alt="gallery"
-              width={200}
-              height={200}
-              className="w-56 h-20 object-cover rounded-lg"
-            />
+            <div key={index} className="w-28 h-20 rounded-lg overflow-hidden">
+              <img
+                src={ele}
+                alt="gallery"
+                width={200}
+                height={200}
+                className="w-full h-full object-cover"
+              />
+            </div>
           ))}
         </div>
 
@@ -62,7 +63,9 @@ const Hotel = ({ hotel }) => {
                   </li>
                 ))
               ) : (
-                <li className="text-gray-500 text-sm">No facilities available</li>
+                <li className="text-gray-500 text-sm">
+                  No facilities available
+                </li>
               )}
             </ul>
           </div>
