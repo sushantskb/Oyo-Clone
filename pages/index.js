@@ -7,7 +7,7 @@ import Header5 from "@/components/Header5";
 import Head from "next/head";
 import Image from "next/image";
 
-export default function Home() {
+export default function Home({locations}) {
   return (
     <div>
       <Head>
@@ -16,7 +16,7 @@ export default function Home() {
         </title>
       </Head>
       <Header1 />
-      <Header2 />
+      <Header2 locations={locations} />
       <Header3 />
       <div className="mx-20 my-14">
         <div className="mb-14">
@@ -43,4 +43,25 @@ export default function Home() {
       <Footer />
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const res = await fetch(`${process.env.API}/api/locations`);
+    const data = await res.json();
+    console.log("API Response:", data);
+
+    return {
+      props: {
+        locations: data.locations || [],
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+    return {
+      props: {
+        locations: [],
+      },
+    };
+  }
 }
