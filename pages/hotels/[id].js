@@ -7,8 +7,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-const SingleHotel = ({ hotel, hotelId }) => {
-  
+const SingleHotel = ({ hotel, hotelId, reviews }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -30,7 +29,7 @@ const SingleHotel = ({ hotel, hotelId }) => {
         oldPrice={hotel.oldPrice}
         types={hotel.types}
       />
-      <HotelRatingsAndPolicy id={hotelId} />
+      <HotelRatingsAndPolicy id={hotelId} reviews={reviews} />
     </div>
   );
 };
@@ -40,10 +39,16 @@ export async function getServerSideProps(context) {
   const res = await fetch(`${process.env.API}/api/hotels/${context.query.id}`);
   const data = await res.json();
 
+  // reviews data
+  const response = await fetch(
+    `${process.env.API}/api/hotels/reviews?hotelId=${context.query.id}`
+  );
+  const reviewsData = await response.json();
   return {
     props: {
       hotel: data.hotel || {},
-      hotelId: context.query.id
+      hotelId: context.query.id,
+      reviews: reviewsData || {},
     },
   };
 }
