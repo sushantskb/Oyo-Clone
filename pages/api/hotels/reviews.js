@@ -47,8 +47,14 @@ export default async function reviewHandler(req, res) {
         return acc;
       }, {});
 
-      const uniqueRatings = Object.keys(ratingCount).map(Number);
-      const counts = Object.values(ratingCount);
+      const uniqueRatings = Object.keys(ratingCount)
+        .map(Number)
+        .sort((a, b) => {
+          return b - a;
+        });
+      const counts = Object.values(ratingCount).sort((a, b) => {
+        return b - a;
+      });
 
       const ratings = reviews.ratings.toObject();
       const highestRating = Math.max(...ratings);
@@ -57,7 +63,7 @@ export default async function reviewHandler(req, res) {
         rating: highestRating,
         review: object[highestRating],
         ratings: uniqueRatings,
-        counts
+        counts,
       });
     }
   } catch (error) {
