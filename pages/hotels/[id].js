@@ -7,7 +7,8 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-const SingleHotel = ({ hotel }) => {
+const SingleHotel = ({ hotel, hotelId }) => {
+  
   const router = useRouter();
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -29,7 +30,7 @@ const SingleHotel = ({ hotel }) => {
         oldPrice={hotel.oldPrice}
         types={hotel.types}
       />
-      <HotelRatingsAndPolicy />
+      <HotelRatingsAndPolicy id={hotelId} />
     </div>
   );
 };
@@ -42,6 +43,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       hotel: data.hotel || {},
+      hotelId: context.query.id
     },
   };
 }

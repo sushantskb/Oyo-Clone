@@ -2,7 +2,7 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import ReviewForm from "./ReviewForm";
 
-const HotelRatingsAndPolicy = () => {
+const HotelRatingsAndPolicy = ({id}) => {
   const rating = 4.5;
   return (
     <div className="max-w-4xl font-bold mx-28 my-8 p-4">
@@ -77,7 +77,7 @@ const HotelRatingsAndPolicy = () => {
         </div>
       </div>
 
-      <ReviewForm />
+      <ReviewForm id={id} />
     </div>
   );
 };

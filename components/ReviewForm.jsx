@@ -1,11 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
 
-const ReviewForm = () => {
+const ReviewForm = ({ id }) => {
   const [review, setReview] = useState({
     rating: "",
     text: "",
   });
   const [submited, setSubmited] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(review);
+    const body = {
+      rating: review.rating,
+      review: review.text,
+    };
+    try {
+      const res = await axios.post(`/api/hotels/reviews?hotelId=${id}`, body);
+      console.log(res.status);
+      if (res.status === 201) {
+        setSubmited(true);
+      } else {
+        setError(true);
+      }
+      setReview({
+        rating: "",
+        text: "",
+      });
+    } catch (error) {
+      setError(true);
+      setReview({
+        rating: "",
+        text: "",
+      });
+    }
+  };
   return (
     <div className="max-w-4xl mx-auto mt-8 p-4 border rounded-md shadow-md">
       <h2 className="text-xl font-bold mb-4">Submit Your Review</h2>
@@ -47,9 +77,13 @@ const ReviewForm = () => {
               onChange={(e) => setReview({ ...review, text: e.target.value })}
               className="mt-1 block w-full border p-2 shadow-md focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-gray-500"></textarea>
           </div>
+          {error && (
+            <p className="my-4 text-lg text-red-500">Something went wrong</p>
+          )}
           <button
             type="submit"
-            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700">
+            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700"
+            onClick={handleSubmit}>
             Submit Review
           </button>
         </form>
