@@ -32,6 +32,34 @@ export default async function reviewHandler(req, res) {
 
       return res.status(201).json("Review Added Successfully");
     }
+
+    if (req.method === "GET") {
+      const { hotelId } = req.query;
+
+      const reviews = await Review.findOne({ hotelId });
+
+      const object = Object.fromEntries(
+        reviews.ratings.map((rating, index) => [rating, reviews.reviews[index]])
+      );
+
+      const ratingCount = reviews.ratings.reduce((acc, rating) => {
+        acc[rating] = (acc[rating] || 0) + 1;
+        return acc;
+      }, {});
+
+      const uniqueRatings = Object.keys(ratingCount).map(Number);
+      const counts = Object.values(ratingCount);
+
+      const ratings = reviews.ratings.toObject();
+      const highestRating = Math.max(...ratings);
+
+      return res.status(200).json({
+        rating: highestRating,
+        review: object[highestRating],
+        ratings: uniqueRatings,
+        counts
+      });
+    }
   } catch (error) {
     console.log("Error", error);
     return res.status(500).json("Internal Server Error");
