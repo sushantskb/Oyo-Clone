@@ -2,9 +2,9 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import ReviewForm from "./ReviewForm";
 
-const HotelRatingsAndPolicy = ({id, reviews}) => {
+const HotelRatingsAndPolicy = ({ id, reviews }) => {
   console.log(reviews);
-  
+
   const rating = 4.5;
   return (
     <div className="max-w-4xl font-bold mx-28 my-8 p-4">
@@ -24,28 +24,35 @@ const HotelRatingsAndPolicy = ({id, reviews}) => {
                   ? "bg-yellow-500"
                   : "bg-orange-500"
               }`}>
-              <span className={`text-2xl font-bold text-white`}>{reviews.rating}</span>
+              <span className={`text-2xl font-bold text-white`}>
+                {reviews?.rating || "No ratings"}
+              </span>
               <FaStar className="text-white text-xl" />
             </div>
-            <p className="text-sm font-semibold text-gray-700 mt-2">{reviews.review}</p>
-            <p className="text-sm text-gray-600">{reviews.ratings.length} ratings</p>
+            <p className="text-sm font-semibold text-gray-700 mt-2">
+              {reviews.review || "No reviews yet"}
+            </p>
+            <p className="text-sm text-gray-600">
+              {reviews?.ratings?.length || 0} ratings
+            </p>
           </div>
 
           {/* Rating Distribution */}
           <div className="w-2/3">
-            {reviews?.ratings?.map((star, index) => (
+            {reviews?.ratings?.length > 0 ?
+              reviews?.ratings?.map((star, index) => (
               <div key={index} className="flex items-center mb-2">
                 <span className="w-8 text-sm font-semibold">{star}★</span>
                 <div className="w-full bg-gray-200 h-2 rounded-md">
                   <div
                     className="bg-yellow-400 h-2 rounded-md"
-                    style={{ width: `${reviews.counts[index]}%` }}></div>
+                    style={{ width: `${reviews?.counts[index]}%` }}></div>
                 </div>
                 <span className="text-sm text-gray-600">
-                  {reviews.counts[index]}%
+                  {reviews?.counts[index]}%
                 </span>
               </div>
-            ))}
+            )) : <p>No ratings</p>}
           </div>
         </div>
       </div>

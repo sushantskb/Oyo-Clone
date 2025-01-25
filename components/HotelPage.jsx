@@ -3,8 +3,10 @@ import { FaStar } from "react-icons/fa";
 import { CiDiscount1 } from "react-icons/ci";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 const HotelPage = ({
+  id,
   title,
   ratings,
   description,
@@ -13,6 +15,7 @@ const HotelPage = ({
   price,
   oldPrice,
 }) => {
+  const router = useRouter();
   const [user, setUser] = useState(false);
   const token = Cookies.get("user-token");
   useEffect(() => {
@@ -28,6 +31,10 @@ const HotelPage = ({
   const handleApplyCoupon = () => {
     if (coupon === "SAVE15") {
       const newPrice = price - price * 0.15;
+      setDiscountedPrice(newPrice.toFixed(2));
+      setMessage("Coupon applied successfully!");
+    } else if (coupon === "WELCOME") {
+      const newPrice = price - price * 0.50;
       setDiscountedPrice(newPrice.toFixed(2));
       setMessage("Coupon applied successfully!");
     } else {
@@ -106,7 +113,7 @@ const HotelPage = ({
 
           <div className="flex justify-between items-center mt-4">
             <div>
-              <p className="text-2xl font-bold">₹{price}</p>
+              <p className="text-2xl font-bold">₹{discountedPrice}</p>
               <p className="text-gray-600 text-sm line-through">₹{oldPrice}</p>
             </div>
             <p className="text-lg text-orange-500">76% off</p>
@@ -160,6 +167,8 @@ const HotelPage = ({
               onClick={() => {
                 if (!user) {
                   alert("Please login first!!");
+                } else {
+                  router.push(`/payment/${id}?amount=${discountedPrice}`);
                 }
               }}>
               Continue to Book

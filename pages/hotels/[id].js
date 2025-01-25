@@ -1,26 +1,16 @@
-import Header1 from "@/components/Header1";
 import HotelPage from "@/components/HotelPage";
 import HotelRatingsAndPolicy from "@/components/HotelRatingsAndPolicy";
 import SearchHeader from "@/components/SearchHeader";
 import Slider from "@/components/Slider";
 import Cookies from "js-cookie";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 const SingleHotel = ({ hotel, hotelId, reviews }) => {
-  const router = useRouter();
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const token = Cookies.get("user-token");
-    if (token !== undefined) {
-      setUser(token);
-    }
-  }, []);
   return (
     <div className=" mx-auto ">
       <SearchHeader />
       <Slider banner={hotel.banner} gallery={hotel.gallery} />
       <HotelPage
+        id={hotel._id}
         title={hotel.name}
         description={hotel.description}
         location={hotel.location}

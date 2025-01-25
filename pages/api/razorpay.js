@@ -1,5 +1,4 @@
 import connDB from "@/lib/db";
-import Hotel from "@/lib/models/hotel.model";
 import Razorpay from "razorpay";
 
 export default async function paymentHandler(req, res) {
@@ -11,10 +10,7 @@ export default async function paymentHandler(req, res) {
       key_secret: process.env.RAZORPAY_SECRET,
     });
 
-    const hotelId = req.body.id;
-    const hotel = await Hotel.findById(hotelId);
-
-    const amount = hotel.price;
+    const amount = req.body.amount;
 
     const options = {
       amount: (amount * 100).toString(), // Convert to the smallest currency unit (paise for INR)

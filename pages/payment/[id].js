@@ -6,7 +6,9 @@ import React, { useEffect } from "react";
 const Payment = () => {
   const params = useRouter();
   const makePayment = async () => {
-    const { data } = await axios.post(`/api/razorpay`, { id: params.query.id });
+    const { data } = await axios.post(`/api/razorpay`, {
+      amount: params.query.amount,
+    });
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
