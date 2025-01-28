@@ -4,6 +4,7 @@ import { CiDiscount1 } from "react-icons/ci";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { jwtDecode } from "jwt-decode";
 
 const HotelPage = ({
   id,
@@ -23,6 +24,10 @@ const HotelPage = ({
       setUser(true);
     }
   }, [token]);
+
+  // Decode token
+  const decoded = jwtDecode(token);
+
   const [coupon, setCoupon] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState(price);
   const [message, setMessage] = useState("");
@@ -34,7 +39,7 @@ const HotelPage = ({
       setDiscountedPrice(newPrice.toFixed(2));
       setMessage("Coupon applied successfully!");
     } else if (coupon === "WELCOME") {
-      const newPrice = price - price * 0.50;
+      const newPrice = price - price * 0.5;
       setDiscountedPrice(newPrice.toFixed(2));
       setMessage("Coupon applied successfully!");
     } else {
@@ -168,7 +173,9 @@ const HotelPage = ({
                 if (!user) {
                   alert("Please login first!!");
                 } else {
-                  router.push(`/payment/${id}?amount=${discountedPrice}`);
+                  router.push(
+                    `/payment/${id}?amount=${discountedPrice}&userId=${decoded.id}&date=${date}`
+                  );
                 }
               }}>
               Continue to Book

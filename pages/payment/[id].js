@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 
 const Payment = () => {
   const params = useRouter();
+
   const makePayment = async () => {
     const { data } = await axios.post(`/api/razorpay`, {
       amount: params.query.amount,
@@ -17,9 +18,17 @@ const Payment = () => {
       amount: data.amount,
       order_id: data.id,
       description: "Thank You",
-      handler: function (response) {
+      handler: async function (response) {
         console.log("Payment successful:", response);
-        params.push(`/success?id=${response.razorpay_payment_id}`);
+        if (response) {
+          const res = await axios.post(
+            `/api/booking?userId=${params.query.userId}&hotelId=${params.query.id}`,
+            { date: params.query.date }
+          );
+          if (res.status === 200) {
+            params.push(`/success?id=${response.razorpay_payment_id}`);
+          }
+        }
       },
       prefill: {
         name: "Sushant",
