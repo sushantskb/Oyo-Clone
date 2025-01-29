@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaSearchLocation, FaUserCircle } from "react-icons/fa";
@@ -6,15 +7,17 @@ import { FaSearchLocation, FaUserCircle } from "react-icons/fa";
 const SearchHeader = ({ placeholder }) => {
   const [location, setLocation] = useState(placeholder || "");
   const [user, setUser] = useState(null);
+  const token = Cookies.get("user-token");
 
   useState(() => {
-    const token = Cookies.get("user-token");
     if (token !== undefined) {
       setUser(token);
     } else {
       setUser(null);
     }
   }, []);
+
+  const decoded = jwtDecode(token);
 
   const handleLogout = () => {
     Cookies.remove("user-token");
@@ -44,7 +47,10 @@ const SearchHeader = ({ placeholder }) => {
           Search
         </Link>
         <button className="flex items-center gap-2 text-gray-700">
-          <FaUserCircle size={34} />
+          <Link href={`/user/${decoded.id}`}>
+            {" "}
+            <FaUserCircle size={34} />
+          </Link>
           <span>
             {user ? (
               <button onClick={handleLogout}>Logout</button>
