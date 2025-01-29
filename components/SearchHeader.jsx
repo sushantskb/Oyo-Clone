@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { decode } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -11,13 +12,13 @@ const SearchHeader = ({ placeholder }) => {
 
   useState(() => {
     if (token !== undefined) {
-      setUser(token);
+      
+      const decoded = jwtDecode(token);
+      setUser(decoded)
     } else {
       setUser(null);
     }
   }, []);
-
-  const decoded = jwtDecode(token);
 
   const handleLogout = () => {
     Cookies.remove("user-token");
@@ -47,7 +48,7 @@ const SearchHeader = ({ placeholder }) => {
           Search
         </Link>
         <button className="flex items-center gap-2 text-gray-700">
-          <Link href={`/user/${decoded.id}`}>
+          <Link href={`/user/${user?.id}`}>
             {" "}
             <FaUserCircle size={34} />
           </Link>
