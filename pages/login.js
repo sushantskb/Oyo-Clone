@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 const Login = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     ...(isLogin ? {} : { name: "" }),
@@ -22,16 +24,30 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      const { data } = await axios.post(`/api/users/login`, formData);
-      Cookies.set("user-token", data.token, { expires: 7 });
-      alert(data.message);
+    setLoading(true);
+    try {
+      let response;
+      if (isLogin) {
+        response = await axios.post(`/api/users/login`, formData);
+      } else {
+        response = await axios.post(`/api/users/register`, formData);
+      }
+
+      const { data } = response;
+      if (data.token) {
+        Cookies.set("user-token", data.token, { expires: 7 });
+      }
       return router.back();
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.message || "Invalid credentials");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+      setError("");
     }
-    const { data } = await axios.post(`/api/users/register`, formData);
-    Cookies.set("user-token", data.token, { expires: 7 });
-    alert(data.message);
-    return router.back();
   };
 
   const handleToggle = () => {
@@ -51,7 +67,7 @@ const Login = () => {
         </div>
         <div className="flex justify-center item-center w-9/12">
           <div className="text-white">
-            <p className="font-bold text-5xl text-justify">
+            <p className="font-bold text-5xl text-justify mt-24">
               There&apos;s a smarter way to OYO around
             </p>
             <p className="text-2xl mt-5 text-justify">
@@ -96,7 +112,14 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <button className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg">
+                <p>
+                  {error && (
+                    <p className="text-sm text-red-500 font-semibold">
+                      {error}
+                    </p>
+                  )}
+                </p>
+                <button className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg" disabled={loading}>
                   {isLogin ? "Login" : "Sign Up"}
                 </button>
               </form>
