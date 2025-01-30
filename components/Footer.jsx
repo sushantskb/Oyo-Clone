@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { CiFacebook, CiInstagram, CiTwitter, CiYoutube } from "react-icons/ci";
 
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
           {/* Left text */}
           <div>
             <h1 className="text-lg font-semibold mb-2">
-              World's leading chain of hotels and homes
+              World&apos;s leading chain of hotels and homes
             </h1>
           </div>
 
@@ -160,18 +161,18 @@ const Footer = () => {
           </div>
 
           <div className="mt-4 lg:mt-0 flex gap-4">
-            <a href="#" className="text-gray-300 hover:text-white">
+            <Link href="#" className="text-gray-300 hover:text-white">
               <CiFacebook size={30} />
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white">
+            </Link>
+            <Link href="#" className="text-gray-300 hover:text-white">
               <CiInstagram size={30} />
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white">
+            </Link>
+            <Link href="#" className="text-gray-300 hover:text-white">
               <CiTwitter size={30} />
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white">
+            </Link>
+            <Link href="#" className="text-gray-300 hover:text-white">
               <CiYoutube size={30} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

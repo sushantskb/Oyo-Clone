@@ -19,7 +19,7 @@ const Header5 = () => {
         {/* Right Section */}
         <div className="flex-1 mt-10 md:mt-0 text-center md:text-left ml-12">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-            There's an oyo around. Always.
+            There&apos;s an oyo around. Always.
           </h2>
           <p className="text-gray-600 text-lg mb-8">
             More Destinations. More Ease. More Affordable.
