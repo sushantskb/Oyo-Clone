@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { CiCircleCheck } from "react-icons/ci";
@@ -22,12 +23,12 @@ const PaymentSuccess = () => {
             Payment Id: <span>{paymentId ? paymentId : "123456"}</span>
         </p>
         <div className="mt-6">
-          <a
+          <Link
             href="/"
             className="px-6 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition-all duration-300"
           >
             Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
