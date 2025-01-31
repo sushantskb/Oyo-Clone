@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Footer from "@/components/Footer";
 import Header1 from "@/components/Header1";
 import Header2 from "@/components/Header2";
@@ -20,7 +21,7 @@ export default function Home({locations}) {
       <Header3 />
       <div className="mx-20 my-14">
         <div className="mb-14">
-          <Image
+          <img
             src={"/banner1.avif"}
             alt="banner1"
             width={200}
@@ -29,7 +30,7 @@ export default function Home({locations}) {
           />
         </div>
         <div className="mb-14">
-          <Image
+          <img
             src={"/banner2.avif"}
             alt="banner2"
             width={200}

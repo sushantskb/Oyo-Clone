@@ -21,12 +21,11 @@ const HotelPage = ({
   const token = Cookies.get("user-token");
   useEffect(() => {
     if (token || token !== undefined) {
-      setUser(true);
+      // Decode token
+      const decoded = jwtDecode(token);
+      setUser(decoded);
     }
   }, [token]);
-
-  // Decode token
-  const decoded = jwtDecode(token);
 
   const [coupon, setCoupon] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState(price);
@@ -174,7 +173,7 @@ const HotelPage = ({
                   alert("Please login first!!");
                 } else {
                   router.push(
-                    `/payment/${id}?amount=${discountedPrice}&userId=${decoded.id}&date=${date}`
+                    `/payment/${id}?amount=${discountedPrice}&userId=${user.id}&date=${date}`
                   );
                 }
               }}>

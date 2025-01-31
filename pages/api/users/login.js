@@ -26,7 +26,7 @@ export default async function handler(req, res) {
           message: "Invalid Credentials",
         });
       }
-      const token = signToken(user._id, "1hr");
+      const token = signToken(user._id, "7d");
       return res.status(200).json({
         success: true,
         message: "Logged In",

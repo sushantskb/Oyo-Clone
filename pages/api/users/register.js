@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         email,
         password: hashedPassword,
       });
-      const token = signToken(user._id, "1hr");
+      const token = signToken(user._id, "7d");
       return res.status(201).json({
         success: true,
         message: "User registerd",
@@ -42,6 +42,8 @@ export default async function handler(req, res) {
       });
     }
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
