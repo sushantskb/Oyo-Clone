@@ -34,19 +34,20 @@ const Login = () => {
       }
 
       const { data } = response;
+      console.log(data);
+
       if (data.token) {
         Cookies.set("user-token", data.token, { expires: 7 });
       }
       return router.back();
     } catch (err) {
       if (err.response) {
-        setError(err.response.data.message || "Invalid credentials");
+        return setError(err.response.data.message || "Invalid credentials");
       } else {
-        setError("Something went wrong. Please try again.");
+        return setError("Something went wrong. Please try again.");
       }
     } finally {
       setLoading(false);
-      setError("");
     }
   };
 
@@ -119,8 +120,16 @@ const Login = () => {
                     </p>
                   )}
                 </p>
-                <button className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg" disabled={loading}>
-                  {isLogin ? "Login" : "Sign Up"}
+                <button
+                  className="w-96 h-14 text-lg font-bold bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white my-5 rounded-lg"
+                  disabled={loading}>
+                  {isLogin
+                    ? loading
+                      ? "Loading..."
+                      : "Login"
+                    : loading
+                    ? "Signing In..."
+                    : "Sign Up"}
                 </button>
               </form>
               <p className="my-1 text-xl">
